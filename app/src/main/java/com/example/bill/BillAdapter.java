@@ -18,8 +18,8 @@ class BillAdapter extends ArrayAdapter<MainActivity.Bill> {
 
     }
 
-    public BillAdapter(View.OnClickListener context, ArrayList<MainActivity.Bill> bills) {
-        super((Context) context, 0, bills);
+    public BillAdapter(Context context, ArrayList<MainActivity.Bill> bills) {
+        super( context, 0, bills);
 
     }
 
