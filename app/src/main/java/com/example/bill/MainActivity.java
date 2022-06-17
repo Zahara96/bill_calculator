@@ -3,12 +3,15 @@ package com.example.bill;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,21 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        // Action Bar
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Bill Calculator");
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-
-
-
-
-
         listView = findViewById(R.id.list_view1);
-
-
         button0 = findViewById(R.id.button0);
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
@@ -77,6 +66,26 @@ public class MainActivity extends AppCompatActivity {
         adapter = new BillAdapter(MainActivity.this, bills);
         ListView listView = findViewById(R.id.list_view1);
         listView.setAdapter(adapter);
+
+
+
+        /*
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            boolean btn_delete_click = extras.getBoolean("btn_delete_click");
+            if (btn_delete_click){
+                sum = 0.00;
+                //Toast.makeText(this,"delete", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+         */
+
+
+
+
+
 
         button1.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -249,15 +258,18 @@ public class MainActivity extends AppCompatActivity {
                     input2 = Float.parseFloat(edt2.getText() + "");
                     output = input1 * input2;
                     sum = sum + output;
-                    total_amount.setText(String.format("%.2f", output));
+                    total_amount.setText(String.format("%.2f", sum));
                     Multiplication = false;
 
                     counter++;
-                    item_count.setText(Integer.toString(counter));
+                    item_count.setText(Integer.toString(bills.size() + 1));
 
-                    Bill bill = new Bill(String.valueOf(bills.size()+1),edt1.getText().toString()+edt_op.getText().toString()+edt2.getText().toString(),total_amount.getText().toString());
+                    Bill bill = new Bill(String.valueOf(counter), edt1.getText().toString() + edt_op.getText().toString() + edt2.getText().toString(),String.valueOf(output));
                     bills.add(bill);
                     adapter.notifyDataSetChanged();
+                    edt2.setText(R.string.empty);
+                    edt1.setText(R.string.empty);
+                    edt_op.setText(R.string.empty);
 
 
                 }
@@ -273,19 +285,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (edt1.length() != 0){
+                    if(edt_op.length() == 0) {
+                        edt1.setText(edt1.getText().subSequence(0,edt1.length()-1));
+                    }
+                    else if (edt2.length() == 0 && edt_op.length() != 0 ){
+                        edt_op.setText(edt_op.getText().subSequence(0,edt_op.length()-1));
 
-                if(edt_op.length() == 0) {
-                    edt1.setText(edt1.getText().subSequence(0,edt1.length()-1));
-                }
-                else if (edt2.length() == 0 && edt_op.length() != 0 ){
-                    edt_op.setText(edt_op.getText().subSequence(0,edt_op.length()-1));
+                    }
+                    else {
+                        edt2.setText(edt2.getText().subSequence(0,edt2.length()-1));
 
+                    }
                 }
-                else {
-                    edt2.setText(edt2.getText().subSequence(0,edt2.length()-1));
-
-                }
-            }
+        }
         });
 
         buttonDel.setOnClickListener(new View.OnClickListener() {
@@ -328,6 +341,49 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+        // Action Bar
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Bill Calculator");
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
+
+    }
+
+
+
+    // method to inflate the options menu when
+    // the user opens the menu for the first time
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // methods to control the operations that will
+    // happen when user clicks on the action buttons
+    @Override
+    public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
+
+        switch (item.getItemId()){
+            case R.id.refresh:
+                Toast.makeText(this, "Refresh Clicked", Toast.LENGTH_SHORT).show();
+                bills.clear();
+                adapter.notifyDataSetChanged();
+                edt2.setText(R.string.empty);
+                edt1.setText(R.string.empty);
+                edt_op.setText(R.string.empty);
+                item_count.setText(R.string.empty);
+                total_amount.setText(R.string.empty);
+                sum = 0.00;
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -335,6 +391,8 @@ public class MainActivity extends AppCompatActivity {
         public String item_no ;
         public   String cal;
         public   String tot;
+
+
 
         public Bill(String item_no, String cal, String tot) {
 
@@ -373,37 +431,8 @@ public class MainActivity extends AppCompatActivity {
         public void setTot(String tot) {
             this.tot = tot;
         }
-    }
 
 
-    // method to inflate the options menu when
-    // the user opens the menu for the first time
-    @Override
-    public boolean onCreateOptionsMenu( Menu menu ) {
-
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // methods to control the operations that will
-    // happen when user clicks on the action buttons
-    @Override
-    public boolean onOptionsItemSelected( @NonNull MenuItem item ) {
-
-        switch (item.getItemId()){
-            case R.id.refresh:
-                Toast.makeText(this, "Refresh Clicked", Toast.LENGTH_SHORT).show();
-                bills.clear();
-                adapter.notifyDataSetChanged();
-                edt2.setText(R.string.empty);
-                edt1.setText(R.string.empty);
-                edt_op.setText(R.string.empty);
-                item_count.setText(R.string.empty);
-                total_amount.setText(R.string.empty);
-                sum = 0.00;
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -5,22 +5,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.util.ArrayList;
+
+
 class BillAdapter extends ArrayAdapter<MainActivity.Bill> {
+
+    ArrayList<MainActivity.Bill> bills;
 
     private static class ViewHolder {
         TextView item_no;
         TextView cal;
         TextView tot;
+        ImageButton btn_delete;
 
 
     }
 
     public BillAdapter(Context context, ArrayList<MainActivity.Bill> bills) {
         super( context, 0, bills);
+        this.bills =bills;
 
+    }
+
+
+
+    public void remove(int index) {
+        bills.remove(index);
     }
 
     @Override
@@ -37,8 +50,26 @@ class BillAdapter extends ArrayAdapter<MainActivity.Bill> {
             viewHolder.item_no = (TextView) convertView.findViewById(R.id.item);
             viewHolder.cal = (TextView) convertView.findViewById(R.id.calculation);
             viewHolder.tot = (TextView) convertView.findViewById(R.id.total);
+
+
+
             // Cache the viewHolder object inside the fresh view
             convertView.setTag(viewHolder);
+
+            viewHolder.btn_delete = (ImageButton) convertView.findViewById(R.id.btn_delete);
+            viewHolder.btn_delete.setTag(position);
+            viewHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int index = (int) v.getTag();
+                    remove(index);
+                    BillAdapter.this.notifyDataSetChanged();
+                    //Intent intent = new Intent(getContext(),MainActivity.class);
+                    //intent.putExtra("btn_delete_click", true);
+                    Toast.makeText(getContext(),"delete", Toast.LENGTH_SHORT).show();
+                }
+            });
+
 
         }
         else {

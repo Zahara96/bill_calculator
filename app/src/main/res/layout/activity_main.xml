@@ -179,11 +179,9 @@
                 android:layout_margin="8dp"
                 android:layout_weight="0.25"
                 android:background="@drawable/operator_selector"
-                android:text="@string/bc"
-                android:textColor="#ecf0f1"
-                android:textSize="20sp"
-
-                />
+                android:drawableStart="@drawable/ic_baseline_backspace_24"
+                android:paddingStart="30dip"
+                tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
 
         </LinearLayout>
 

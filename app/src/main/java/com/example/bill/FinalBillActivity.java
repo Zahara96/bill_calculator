@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +18,10 @@ import java.util.ArrayList;
 
 public class FinalBillActivity extends AppCompatActivity {
 
-    BillAdapter adapter;
+    FinalBillAdapter adapter;
     ListView listViewFinal;
     TextView sum_total;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,12 @@ public class FinalBillActivity extends AppCompatActivity {
 
 
 
-        adapter = new BillAdapter(FinalBillActivity.this, bills);
+        adapter = new FinalBillAdapter(FinalBillActivity.this, bills);
         adapter.notifyDataSetChanged();
         listViewFinal.setAdapter(adapter);
 
         if (sum == 0.00){
-            sum_total.setText("0.00 \n No Items Added!!!");
+            sum_total.setText("0.00 \n No Items Added. Please add items!!!");
         } else {
             sum_total.setText(String.format("%.2f", sum));
         }

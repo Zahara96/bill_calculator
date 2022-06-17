@@ -1,35 +1,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50dp"
     android:background="#C1CFB1">
+
 
     <TextView
         android:id="@+id/item1"
-        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item"/>
+        android:padding="5dp"
+        android:text="@string/item"
+        android:textSize="25dp"/>
     <TextView
         android:id="@+id/item"
         android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/item1"
-        android:text="@string/_0"/>
+        android:text="@string/_0"
+        android:textSize="25dp"/>
+
     <TextView
         android:id="@+id/calculation"
-        android:layout_toEndOf="@id/item"
-        android:padding="5dp"
-        android:layout_width="180dp"
-        android:gravity="center"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="@string/_0_00_x_0" />
+        android:layout_toEndOf="@id/item"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/_0_00_x_0"
+        android:textSize="25dp"/>
+
     <TextView
         android:id="@+id/total"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
         android:layout_toEndOf="@id/calculation"
         android:padding="5dp"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
         android:text="@string/_0_00"
-        android:textAlignment="viewEnd"/>
+        android:textAlignment="viewEnd"
+        android:textSize="25dp"/>
+
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/total"
+        android:background="#C1CFB1"
+        android:paddingTop="8dp"
+        android:src="@drawable/ic_baseline_delete_24" />
+
 </RelativeLayout>
