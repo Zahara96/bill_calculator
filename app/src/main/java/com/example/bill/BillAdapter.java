@@ -63,9 +63,7 @@ class BillAdapter extends ArrayAdapter<MainActivity.Bill> {
                 public void onClick(View v) {
                     int index = (int) v.getTag();
                     remove(index);
-                    BillAdapter.this.notifyDataSetChanged();
-                    //Intent intent = new Intent(getContext(),MainActivity.class);
-                    //intent.putExtra("btn_delete_click", true);
+                   // billRemoveListner.onItemRemoved(index);
                     Toast.makeText(getContext(),"delete", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -83,6 +81,8 @@ class BillAdapter extends ArrayAdapter<MainActivity.Bill> {
         viewHolder.tot.setText(bills.tot);
         return convertView;
     }
+
+
 
 
 }

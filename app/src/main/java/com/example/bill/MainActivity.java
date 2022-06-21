@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     double input1 = 0.00, input2 = 0.00, output = 0.00, sum = 0.00;
     TextView edt1 , edt2, edt_op, total_amount, item_count;
@@ -69,18 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        /*
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            boolean btn_delete_click = extras.getBoolean("btn_delete_click");
-            if (btn_delete_click){
-                sum = 0.00;
-                //Toast.makeText(this,"delete", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-         */
 
 
 
@@ -386,8 +375,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onItemRemoved(int index){
+        bills.remove(index);
+        double total = 0;
 
-    public static class Bill implements Serializable {
+        for (int i=0; i< bills.size();i++){
+            total = Double.parseDouble(bills.get(i).getTot());
+        }
+    }
+
+   public static class Bill implements Serializable {
         public String item_no ;
         public   String cal;
         public   String tot;
@@ -433,6 +430,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
     }
+
 
 }
